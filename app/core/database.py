@@ -184,14 +184,26 @@ class MockSupabaseClient:
 supabase = None
 
 try:
-    if "placeholder" in settings.SUPABASE_URL or "placeholder" in settings.SUPABASE_KEY or "your-project-id" in settings.SUPABASE_URL:
-        print("\n[WARNING] Supabase is not configured. Running in local fallback/in-memory sandbox mode.\n")
+    url = settings.SUPABASE_URL
+    key = settings.SUPABASE_KEY
+    print(f"\n[INFO] SUPABASE_URL = {url}")
+    print(f"[INFO] SUPABASE_KEY = {key[:20]}...") if key and len(key) > 20 else print(f"[INFO] SUPABASE_KEY = {key}")
+
+    if "placeholder" in url or "placeholder" in key or "your-project-id" in url:
+        print("[WARNING] Supabase is not configured. Running in local fallback/in-memory sandbox mode.\n")
         supabase = MockSupabaseClient()
     else:
-        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
+        supabase = create_client(url, key)
+        # Quick connectivity test: try a harmless select
+        try:
+            test = supabase.table("users").select("id").limit(1).execute()
+            print(f"[INFO] Supabase connected successfully. Users table accessible. Rows returned: {len(test.data)}\n")
+        except Exception as test_err:
+            print(f"[WARNING] Supabase connected but table query failed: {test_err}")
+            print("[WARNING] This is likely a Row Level Security (RLS) issue.")
+            print("[WARNING] Disable RLS on the 'users' and 'settings' tables, or use the service_role key.\n")
+            raise test_err
 except Exception as e:
     print(f"\n[WARNING] Supabase client initialization failed: {str(e)}")
     print("Running in local fallback/in-memory sandbox mode.\n")
     supabase = MockSupabaseClient()
-
-

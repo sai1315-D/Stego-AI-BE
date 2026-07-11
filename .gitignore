@@ -1,0 +1,8 @@
+
+exiftool_files/
+.env
+backend/db.json
+__pycache__/
+venv/
+.venv/
+env/

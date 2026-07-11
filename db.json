@@ -17,10 +17,390 @@
       "is_permanent": false,
       "id": "8f26d8e0-7ed2-4377-a58e-471121754376",
       "created_at": "2026-06-17T05:13:03.469447Z"
+    },
+    {
+      "name": "Admin User",
+      "email": "newadmin@stego.ai",
+      "password_hash": "$2b$12$mxGuunpiUNc0h3FO.uPA8eyUIEB0QtoeRFBY028NGModDg89CghJe",
+      "role": "operator",
+      "is_permanent": false,
+      "id": "43e1c329-e8d8-492e-ae1b-fb4b02a76529",
+      "created_at": "2026-06-17T11:32:51.926887Z"
+    },
+    {
+      "name": "Akbar",
+      "email": "akbar@gmail.com",
+      "password_hash": "$2b$12$N0BPiEGSqhf0F7pWoV810OyyplCHUD25IJhpxb1UG62w/EeofJ7du",
+      "role": "operator",
+      "is_permanent": false,
+      "id": "7e9005a5-82a7-44e4-8028-ce2b667b9606",
+      "created_at": "2026-06-21T06:03:55.086304Z"
+    },
+    {
+      "name": "sai",
+      "email": "sai@gmail.com",
+      "password_hash": "$2b$12$/D1LB5W6qATqnegMFeAiwuKNtacvvXlnbWFILGbq8BAzDDiGmiTOK",
+      "role": "operator",
+      "is_permanent": false,
+      "id": "5c05b953-3d50-40f2-9cde-7e93ea422247",
+      "created_at": "2026-06-21T06:11:32.754515Z"
+    },
+    {
+      "name": "dev",
+      "email": "dev@gmail.com",
+      "password_hash": "$2b$12$fME9777OcyeHP8b3JhxVieMLK/GHjuVpxyPjMJLfZwqBHQCBWx/pK",
+      "role": "operator",
+      "is_permanent": false,
+      "id": "16e5bec4-8bed-4416-b3c0-44788d66cc66",
+      "created_at": "2026-07-11T06:25:59.681617Z"
+    },
+    {
+      "name": "Operator Admin",
+      "email": "operator@shield.lan",
+      "password_hash": "$2b$12$1eSErQPTOlWrat1719jPGuBbwwJh7xlrZsJHrLc6TiCWuThlftrtC",
+      "role": "operator",
+      "is_permanent": false,
+      "id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "created_at": "2026-07-11T06:26:26.235803Z"
+    },
+    {
+      "name": "New Agent",
+      "email": "agent@shield.lan",
+      "password_hash": "$2b$12$rlf5ABTk4JVXDFxrJaRLXu1TgRQBdZHk5l1O0NCZG0ZMxvK4kGYhi",
+      "role": "operator",
+      "is_permanent": false,
+      "id": "083dd533-ad71-4d05-8535-bce520c43631",
+      "created_at": "2026-07-11T06:46:05.569085Z"
     }
   ],
-  "scan_history": [],
-  "threat_logs": [],
+  "scan_history": [
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "file_type": "image",
+      "risk_score": 67,
+      "risk_level": "SUSPICIOUS",
+      "scan_result": {
+        "lsb_ones_ratio": 0.5015,
+        "lsb_correlation": -62.737,
+        "lsb_entropy": 1.0,
+        "overall_entropy": 7.8544,
+        "chi_square_stat": 182.04,
+        "noise_variance": 3782.92,
+        "vt_results": {
+          "status": "success",
+          "source": "cache",
+          "sha256": "dc5791898589866a73d0a16df79b5d41fbc8dc698e1dee7dcd65280770b5de91",
+          "data": {
+            "stats": {
+              "malicious": 0,
+              "suspicious": 0,
+              "undetected": 60,
+              "harmless": 0,
+              "timeout": 0,
+              "confirmed-timeout": 0,
+              "failure": 1,
+              "type-unsupported": 13
+            },
+            "malicious_engines": [],
+            "reputation": 0,
+            "type_description": "JPEG",
+            "meaningful_name": "images.jpg"
+          }
+        },
+        "exiftool_results": {
+          "status": "success",
+          "metadata": {
+            "ExifTool:ExifToolVersion": 13.59,
+            "File:FileSize": "66 kB",
+            "File:FileModifyDate": "2026:07:11 14:39:01+05:30",
+            "File:FileAccessDate": "2026:07:11 14:39:01+05:30",
+            "File:FileCreateDate": "2026:07:11 14:39:01+05:30",
+            "File:FilePermissions": "-rw-rw-rw-",
+            "File:FileType": "JPEG",
+            "File:FileTypeExtension": "jpg",
+            "File:MIMEType": "image/jpeg",
+            "File:ImageWidth": 678,
+            "File:ImageHeight": 452,
+            "File:EncodingProcess": "Baseline DCT, Huffman coding",
+            "File:BitsPerSample": 8,
+            "File:ColorComponents": 3,
+            "File:YCbCrSubSampling": "YCbCr4:2:0 (2 2)",
+            "JFIF:JFIFVersion": 1.01,
+            "JFIF:ResolutionUnit": "None",
+            "JFIF:XResolution": 1,
+            "JFIF:YResolution": 1,
+            "Composite:ImageSize": "678x452",
+            "Composite:Megapixels": 0.306
+          },
+          "warnings": [],
+          "stego_indicators": [],
+          "risk_score_impact": 0
+        }
+      },
+      "id": "dc6144cf-c790-4fb2-a1aa-262f5a7183da",
+      "created_at": "2026-07-11T09:09:05.619902Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "file_type": "image",
+      "risk_score": 67,
+      "risk_level": "SUSPICIOUS",
+      "scan_result": {
+        "lsb_ones_ratio": 0.5015,
+        "lsb_correlation": -62.737,
+        "lsb_entropy": 1.0,
+        "overall_entropy": 7.8544,
+        "chi_square_stat": 182.04,
+        "noise_variance": 3782.92,
+        "vt_results": {
+          "status": "success",
+          "source": "cache",
+          "sha256": "dc5791898589866a73d0a16df79b5d41fbc8dc698e1dee7dcd65280770b5de91",
+          "data": {
+            "stats": {
+              "malicious": 0,
+              "suspicious": 0,
+              "undetected": 60,
+              "harmless": 0,
+              "timeout": 0,
+              "confirmed-timeout": 0,
+              "failure": 1,
+              "type-unsupported": 13
+            },
+            "malicious_engines": [],
+            "reputation": 0,
+            "type_description": "JPEG",
+            "meaningful_name": "images.jpg"
+          }
+        },
+        "exiftool_results": {
+          "status": "success",
+          "metadata": {
+            "ExifTool:ExifToolVersion": 13.59,
+            "File:FileSize": "66 kB",
+            "File:FileModifyDate": "2026:07:11 14:40:50+05:30",
+            "File:FileAccessDate": "2026:07:11 14:40:50+05:30",
+            "File:FileCreateDate": "2026:07:11 14:40:50+05:30",
+            "File:FilePermissions": "-rw-rw-rw-",
+            "File:FileType": "JPEG",
+            "File:FileTypeExtension": "jpg",
+            "File:MIMEType": "image/jpeg",
+            "File:ImageWidth": 678,
+            "File:ImageHeight": 452,
+            "File:EncodingProcess": "Baseline DCT, Huffman coding",
+            "File:BitsPerSample": 8,
+            "File:ColorComponents": 3,
+            "File:YCbCrSubSampling": "YCbCr4:2:0 (2 2)",
+            "JFIF:JFIFVersion": 1.01,
+            "JFIF:ResolutionUnit": "None",
+            "JFIF:XResolution": 1,
+            "JFIF:YResolution": 1,
+            "Composite:ImageSize": "678x452",
+            "Composite:Megapixels": 0.306
+          },
+          "warnings": [],
+          "stego_indicators": [],
+          "risk_score_impact": 0
+        }
+      },
+      "id": "adbd958b-c7d3-4d0c-a22d-c35c6d3cac21",
+      "created_at": "2026-07-11T09:10:52.031645Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "file_type": "image",
+      "risk_score": 67,
+      "risk_level": "SUSPICIOUS",
+      "scan_result": {
+        "lsb_ones_ratio": 0.5015,
+        "lsb_correlation": -62.737,
+        "lsb_entropy": 1.0,
+        "overall_entropy": 7.8544,
+        "chi_square_stat": 182.04,
+        "noise_variance": 3782.92,
+        "vt_results": {
+          "status": "success",
+          "source": "cache",
+          "sha256": "dc5791898589866a73d0a16df79b5d41fbc8dc698e1dee7dcd65280770b5de91",
+          "data": {
+            "stats": {
+              "malicious": 0,
+              "suspicious": 0,
+              "undetected": 60,
+              "harmless": 0,
+              "timeout": 0,
+              "confirmed-timeout": 0,
+              "failure": 1,
+              "type-unsupported": 13
+            },
+            "malicious_engines": [],
+            "reputation": 0,
+            "type_description": "JPEG",
+            "meaningful_name": "images.jpg"
+          }
+        },
+        "exiftool_results": {
+          "status": "success",
+          "metadata": {
+            "ExifTool:ExifToolVersion": 13.59,
+            "File:FileSize": "66 kB",
+            "File:FileModifyDate": "2026:07:11 15:16:43+05:30",
+            "File:FileAccessDate": "2026:07:11 15:16:43+05:30",
+            "File:FileCreateDate": "2026:07:11 15:16:43+05:30",
+            "File:FilePermissions": "-rw-rw-rw-",
+            "File:FileType": "JPEG",
+            "File:FileTypeExtension": "jpg",
+            "File:MIMEType": "image/jpeg",
+            "File:ImageWidth": 678,
+            "File:ImageHeight": 452,
+            "File:EncodingProcess": "Baseline DCT, Huffman coding",
+            "File:BitsPerSample": 8,
+            "File:ColorComponents": 3,
+            "File:YCbCrSubSampling": "YCbCr4:2:0 (2 2)",
+            "JFIF:JFIFVersion": 1.01,
+            "JFIF:ResolutionUnit": "None",
+            "JFIF:XResolution": 1,
+            "JFIF:YResolution": 1,
+            "Composite:ImageSize": "678x452",
+            "Composite:Megapixels": 0.306
+          },
+          "warnings": [],
+          "stego_indicators": [],
+          "risk_score_impact": 0
+        }
+      },
+      "id": "f9449758-723b-4409-8508-fac6b3998c86",
+      "created_at": "2026-07-11T09:46:47.150802Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "file_type": "image",
+      "risk_score": 67,
+      "risk_level": "SUSPICIOUS",
+      "scan_result": {
+        "lsb_ones_ratio": 0.5015,
+        "lsb_correlation": -62.737,
+        "lsb_entropy": 1.0,
+        "overall_entropy": 7.8544,
+        "chi_square_stat": 182.04,
+        "noise_variance": 3782.92,
+        "vt_results": {
+          "status": "success",
+          "source": "cache",
+          "sha256": "dc5791898589866a73d0a16df79b5d41fbc8dc698e1dee7dcd65280770b5de91",
+          "data": {
+            "stats": {
+              "malicious": 0,
+              "suspicious": 0,
+              "undetected": 60,
+              "harmless": 0,
+              "timeout": 0,
+              "confirmed-timeout": 0,
+              "failure": 1,
+              "type-unsupported": 13
+            },
+            "malicious_engines": [],
+            "reputation": 0,
+            "type_description": "JPEG",
+            "meaningful_name": "images.jpg"
+          }
+        },
+        "exiftool_results": {
+          "status": "success",
+          "metadata": {
+            "ExifTool:ExifToolVersion": 13.59,
+            "File:FileSize": "66 kB",
+            "File:FileModifyDate": "2026:07:11 15:38:08+05:30",
+            "File:FileAccessDate": "2026:07:11 15:38:08+05:30",
+            "File:FileCreateDate": "2026:07:11 15:38:08+05:30",
+            "File:FilePermissions": "-rw-rw-rw-",
+            "File:FileType": "JPEG",
+            "File:FileTypeExtension": "jpg",
+            "File:MIMEType": "image/jpeg",
+            "File:ImageWidth": 678,
+            "File:ImageHeight": 452,
+            "File:EncodingProcess": "Baseline DCT, Huffman coding",
+            "File:BitsPerSample": 8,
+            "File:ColorComponents": 3,
+            "File:YCbCrSubSampling": "YCbCr4:2:0 (2 2)",
+            "JFIF:JFIFVersion": 1.01,
+            "JFIF:ResolutionUnit": "None",
+            "JFIF:XResolution": 1,
+            "JFIF:YResolution": 1,
+            "Composite:ImageSize": "678x452",
+            "Composite:Megapixels": 0.306
+          },
+          "warnings": [],
+          "stego_indicators": [],
+          "risk_score_impact": 0
+        }
+      },
+      "id": "ba4410f1-e022-49db-a65a-8922dc63be0f",
+      "created_at": "2026-07-11T10:08:15.965174Z"
+    }
+  ],
+  "threat_logs": [
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "20260514_OHR.Pitigliano_EN-IN6839021414_UHD_bing.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "68c8a6b5-203a-4e06-ad5e-beae639f49b4",
+      "created_at": "2026-07-11T06:48:35.833281Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "a1d62769-ac77-4c11-9649-595ef463ed95",
+      "created_at": "2026-07-11T07:58:53.100921Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "wp14480240.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "962ca5cf-1687-479c-87ee-dcd4aac7d1d6",
+      "created_at": "2026-07-11T08:46:01.987551Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "bb862ec7-22c2-488e-823d-f5fd73305525",
+      "created_at": "2026-07-11T09:09:05.622328Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "440c42e7-131a-4ff2-bf7d-10ea6a9798ce",
+      "created_at": "2026-07-11T09:10:52.035112Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "ad537d61-74f7-4d22-9d5a-13f229933586",
+      "created_at": "2026-07-11T09:46:47.162867Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "file_name": "images.jpg",
+      "threat_level": "SUSPICIOUS",
+      "description": "High probability of steganographic content. Chi-Square POV testing reveals systematic LSB alteration patterns indicative of an encrypted payload.",
+      "id": "a118a440-0af2-4a52-911d-f68528ab91c0",
+      "created_at": "2026-07-11T10:08:15.978352Z"
+    }
+  ],
   "settings": [
     {
       "id": "settings-uuid-1234",
@@ -51,6 +431,66 @@
       "dark_mode": true,
       "id": "b196a902-287b-41bf-88b7-19f9d86138c0",
       "created_at": "2026-06-17T05:13:03.475455Z"
+    },
+    {
+      "user_id": "43e1c329-e8d8-492e-ae1b-fb4b02a76529",
+      "notifications_enabled": true,
+      "alert_sound_enabled": true,
+      "background_scan_enabled": true,
+      "auto_scan_enabled": true,
+      "dark_mode": true,
+      "id": "2a581b43-dd63-4ec8-bd42-13a52160487b",
+      "created_at": "2026-06-17T11:32:51.944843Z"
+    },
+    {
+      "user_id": "7e9005a5-82a7-44e4-8028-ce2b667b9606",
+      "notifications_enabled": true,
+      "alert_sound_enabled": true,
+      "background_scan_enabled": true,
+      "auto_scan_enabled": true,
+      "dark_mode": true,
+      "id": "9e215116-7504-448d-b228-b2a0b4e4d6c0",
+      "created_at": "2026-06-21T06:03:55.088716Z"
+    },
+    {
+      "user_id": "5c05b953-3d50-40f2-9cde-7e93ea422247",
+      "notifications_enabled": true,
+      "alert_sound_enabled": true,
+      "background_scan_enabled": true,
+      "auto_scan_enabled": true,
+      "dark_mode": true,
+      "id": "3eda1eac-81e3-48c1-b552-daacb5a2b612",
+      "created_at": "2026-06-21T06:11:32.759200Z"
+    },
+    {
+      "user_id": "16e5bec4-8bed-4416-b3c0-44788d66cc66",
+      "notifications_enabled": true,
+      "alert_sound_enabled": true,
+      "background_scan_enabled": true,
+      "auto_scan_enabled": true,
+      "dark_mode": true,
+      "id": "ca0cb015-443e-46bd-8c1d-dc87a09c83b8",
+      "created_at": "2026-07-11T06:25:59.700249Z"
+    },
+    {
+      "user_id": "b663ba58-4174-4f2f-b77e-e7b6aab0df6a",
+      "notifications_enabled": true,
+      "alert_sound_enabled": true,
+      "background_scan_enabled": true,
+      "auto_scan_enabled": true,
+      "dark_mode": true,
+      "id": "932fedd0-457e-457f-93fe-d10043e42489",
+      "created_at": "2026-07-11T06:26:26.244432Z"
+    },
+    {
+      "user_id": "083dd533-ad71-4d05-8535-bce520c43631",
+      "notifications_enabled": true,
+      "alert_sound_enabled": true,
+      "background_scan_enabled": true,
+      "auto_scan_enabled": true,
+      "dark_mode": true,
+      "id": "6f76b66d-694b-4102-8361-73ce53f7d09f",
+      "created_at": "2026-07-11T06:46:05.576258Z"
     }
   ]
 }

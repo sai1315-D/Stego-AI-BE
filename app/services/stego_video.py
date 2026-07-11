@@ -7,15 +7,20 @@ from app.services.stego_image import ImageStegoDetector
 
 class VideoStegoDetector:
     @staticmethod
-    def analyze(file_bytes: bytes) -> dict:
+    def analyze(file_bytes: bytes, file_name: str = "video.mp4") -> dict:
         """
         Analyze a video file (MP4, AVI) for hidden stego payloads.
         Saves the file temporarily to read frames via OpenCV, extracts frame metrics,
         and evaluates temporal variations.
         """
-        # Create a temporary file to load into cv2.VideoCapture
+        # Extract extension from original file name to assist OpenCV VideoCapture
+        _, ext = os.path.splitext(file_name)
+        if not ext:
+            ext = ".mp4"
+            
+        # Create a temporary file with the correct video extension
         temp_dir = tempfile.gettempdir()
-        temp_file_path = os.path.join(temp_dir, next(tempfile._get_candidate_names()) + ".tmp_video")
+        temp_file_path = os.path.join(temp_dir, next(tempfile._get_candidate_names()) + ext)
         
         try:
             with open(temp_file_path, "wb") as f:

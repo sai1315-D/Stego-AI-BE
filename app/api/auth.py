@@ -55,24 +55,30 @@ async def register(user_data: UserRegister):
             "is_permanent": False
         }).execute()
         
+        print(f"[DEBUG] Registration insert response: {user_response}")
+        print(f"[DEBUG] Registration insert data: {user_response.data}")
+        
         if not user_response.data:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="User creation failed."
+                detail="User creation failed — no data returned from database. Check RLS policies on the 'users' table."
             )
             
         user = user_response.data[0]
         user_id = user["id"]
         
         # Create default settings for the new user
-        supabase.table("settings").insert({
-            "user_id": user_id,
-            "notifications_enabled": True,
-            "alert_sound_enabled": True,
-            "background_scan_enabled": True,
-            "auto_scan_enabled": True,
-            "dark_mode": True
-        }).execute()
+        try:
+            supabase.table("settings").insert({
+                "user_id": user_id,
+                "notifications_enabled": True,
+                "alert_sound_enabled": True,
+                "background_scan_enabled": True,
+                "auto_scan_enabled": True,
+                "dark_mode": True
+            }).execute()
+        except Exception as settings_err:
+            print(f"[WARNING] Failed to create default settings for user {user_id}: {settings_err}")
         
         access_token = create_access_token(subject=user_id)
         return {
@@ -83,7 +89,10 @@ async def register(user_data: UserRegister):
             "email": user["email"],
             "role": user.get("role", "operator")
         }
+    except HTTPException:
+        raise
     except Exception as e:
+        print(f"[ERROR] Registration failed with exception: {type(e).__name__}: {str(e)}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 # ──────────────────────────────────────────────

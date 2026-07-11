@@ -32,7 +32,7 @@ class AIEngine:
         elif file_type == "audio":
             res = AudioStegoDetector.analyze(file_bytes)
         elif file_type == "video":
-            res = VideoStegoDetector.analyze(file_bytes)
+            res = VideoStegoDetector.analyze(file_bytes, file_name)
         elif file_type == "document":
             res = DocumentStegoDetector.analyze(file_bytes, file_name)
         else:

@@ -46,6 +46,11 @@ class ScanResponse(BaseModel):
     risk_level: str
     description: str
     metrics: Dict[str, Any]
+    vt_results: Optional[Dict[str, Any]] = None
+    scan_duration_ms: Optional[int] = None
+    file_size: Optional[int] = None
+    sha256: Optional[str] = None
+    exiftool_results: Optional[Dict[str, Any]] = None
 
 # Dashboard Schemas
 class DashboardStats(BaseModel):
