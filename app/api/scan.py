@@ -103,6 +103,9 @@ async def handle_file_scan(file: UploadFile, file_type: str, user_id: str) -> di
                 detail="Failed to save scan history."
             )
             
+        result["id"] = db_res.data[0]["id"]
+        result["scan_date"] = db_res.data[0]["created_at"]
+            
         # If threat is detected (SUSPICIOUS or DANGEROUS), save log in threat_logs
         if result["risk_level"] in ["SUSPICIOUS", "DANGEROUS"]:
             threat_log = {

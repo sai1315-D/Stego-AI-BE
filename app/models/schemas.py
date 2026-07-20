@@ -39,6 +39,8 @@ class ResetPasswordRequest(BaseModel):
 
 # Scan Response Schema
 class ScanResponse(BaseModel):
+    id: Optional[str] = None
+    scan_date: Optional[str] = None
     file_name: str
     file_type: str
     threat_probability: float

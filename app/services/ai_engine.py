@@ -43,19 +43,20 @@ class AIEngine:
 
         # If a trained scikit-learn model is present, refine the heuristic score.
         # Otherwise, the DSP heuristic scoring will be utilized.
-        if self.model:
+        if self.model and file_type != "video":
             try:
-                # Example: Use extracted metrics as features for the classifier
                 metrics = res["metrics"]
-                feature_vector = np.array(list(metrics.values())).reshape(1, -1)
+                feature_vector = np.array(list(metrics.values()), dtype=np.float64).reshape(1, -1)
+                
+                # Predict probability if feature dimension is recognized
                 ml_prob = float(self.model.predict_proba(feature_vector)[0][1])
                 
-                # Update threat probability and score with ML prediction (weighted 70% ML, 30% DSP)
+                # Update threat probability and score with ML prediction (weighted 15% ML, 85% DSP)
                 dsp_prob = res["threat_probability"]
-                combined_prob = (ml_prob * 0.7) + (dsp_prob * 0.3)
+                combined_prob = (ml_prob * 0.15) + (dsp_prob * 0.85)
                 
-                risk_score = int(combined_prob * 100)
-                res["threat_probability"] = combined_prob
+                risk_score = max(0, min(100, int(combined_prob * 100)))
+                res["threat_probability"] = risk_score / 100.0
                 res["risk_score"] = risk_score
                 
                 # Reclassify Risk Levels based on updated score

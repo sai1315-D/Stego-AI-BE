@@ -9,11 +9,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS configuration to allow connections from Flutter Android emulator / mobile clients
+# CORS configuration to allow connections from web clients (Vercel/Localhost) and mobile apps
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

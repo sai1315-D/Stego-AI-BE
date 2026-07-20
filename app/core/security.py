@@ -39,6 +39,7 @@ def decode_access_token(token: str) -> Union[str, None]:
         return None
 
 def get_current_user_id(credentials: HTTPAuthorizationCredentials = Depends(security_scheme)) -> str:
+    from app.core.database import supabase
     token = credentials.credentials
     user_id = decode_access_token(token)
     if not user_id:
@@ -47,4 +48,20 @@ def get_current_user_id(credentials: HTTPAuthorizationCredentials = Depends(secu
             detail="Invalid or expired authentication token.",
             headers={"WWW-Authenticate": "Bearer"},
         )
+    
+    # Verify user exists in database
+    try:
+        user_res = supabase.table("users").select("id").eq("id", user_id).execute()
+        if not user_res.data:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="User session is invalid or user no longer exists. Please log in again.",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    except HTTPException:
+        raise
+    except Exception as e:
+        # If DB query fails for any non-401 reason, proceed or handle gracefully
+        pass
+
     return user_id

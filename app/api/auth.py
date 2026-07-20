@@ -102,14 +102,51 @@ async def register(user_data: UserRegister):
 async def login(user_data: UserLogin):
     try:
         user_response = supabase.table("users").select("*").eq("email", user_data.email).execute()
-        if not user_response.data:
+        user = None
+        if user_response.data:
+            user = user_response.data[0]
+        else:
+            # Fallback check in local db.json if running with Supabase but user was created in db.json
+            import os, json
+            db_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "db.json")
+            if os.path.exists(db_path):
+                try:
+                    with open(db_path, "r", encoding="utf-8") as f:
+                        local_db = json.load(f)
+                    local_users = local_db.get("users", [])
+                    local_match = next((u for u in local_users if u.get("email") == user_data.email), None)
+                    if local_match and verify_password(user_data.password, local_match["password_hash"]):
+                        user = local_match
+                        try:
+                            supabase.table("users").insert({
+                                "id": user["id"],
+                                "name": user["name"],
+                                "email": user["email"],
+                                "password_hash": user["password_hash"],
+                                "role": user.get("role", "operator"),
+                                "is_permanent": user.get("is_permanent", False)
+                            }).execute()
+                            
+                            supabase.table("settings").insert({
+                                "user_id": user["id"],
+                                "notifications_enabled": True,
+                                "alert_sound_enabled": True,
+                                "background_scan_enabled": True,
+                                "auto_scan_enabled": True,
+                                "dark_mode": True
+                            }).execute()
+                            print(f"[INFO] Synced user {user['email']} from db.json to Supabase.")
+                        except Exception as sync_err:
+                            print(f"[WARNING] Failed to sync local user to Supabase: {sync_err}")
+                except Exception as db_err:
+                    print(f"[WARNING] Local db fallback error: {db_err}")
+
+        if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect email or password."
             )
             
-        user = user_response.data[0]
-        
         if not verify_password(user_data.password, user["password_hash"]):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

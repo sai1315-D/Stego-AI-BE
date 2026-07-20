@@ -13,7 +13,23 @@ class ImageStegoDetector:
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         
         if img is None:
-            raise ValueError("Invalid image file or format not supported by OpenCV.")
+            # Fallback decoding via Pillow + pillow_heif for HEIC, HEIF, WebP, TIFF, etc.
+            try:
+                import io
+                from PIL import Image
+                try:
+                    import pillow_heif
+                    pillow_heif.register_heif_opener()
+                except Exception:
+                    pass
+                
+                pil_img = Image.open(io.BytesIO(file_bytes))
+                pil_img = pil_img.convert("RGB")
+                img_rgb = np.array(pil_img)
+                img = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+            except Exception as pil_err:
+                raise ValueError(f"Invalid image file or format not supported: {str(pil_err)}")
+
             
         # Basic properties
         height, width, channels = img.shape
@@ -31,8 +47,10 @@ class ImageStegoDetector:
         
         # Spatial correlation in the LSB plane: measure if adjacent LSBs are correlated.
         # Clean images show higher spatial correlation in the LSB than stego images.
-        lsb_diff_h = np.abs(lsb_plane[:, :-1] - lsb_plane[:, 1:])
-        lsb_diff_v = np.abs(lsb_plane[:-1, :] - lsb_plane[1:, :])
+        # Convert to int16 to prevent uint8 underflow (0 - 1 = 255) during subtraction
+        lsb_plane_int = lsb_plane.astype(np.int16)
+        lsb_diff_h = np.abs(lsb_plane_int[:, :-1] - lsb_plane_int[:, 1:])
+        lsb_diff_v = np.abs(lsb_plane_int[:-1, :] - lsb_plane_int[1:, :])
         lsb_correlation = float(1.0 - (np.mean(lsb_diff_h) + np.mean(lsb_diff_v)) / 2.0)
         
         # 2. Chi-Square (X^2) Steg-Analysis (POV Attack)
@@ -44,13 +62,14 @@ class ImageStegoDetector:
         degrees_of_freedom = 0
         
         for i in range(0, 256, 2):
-            y_obs = hist[i]  # observed frequency
-            y_obs_next = hist[i+1]
+            y_obs = hist[i]  # observed frequency for 2k
+            y_obs_next = hist[i+1]  # observed frequency for 2k+1
             
             y_exp = (y_obs + y_obs_next) / 2.0  # expected frequency under stego hypothesis
             
             if y_exp > 0:
-                chi_square_stat += ((y_obs - y_exp) ** 2) / y_exp
+                # Sum Chi-Square contribution of both bins in the pair (2k and 2k+1)
+                chi_square_stat += ((y_obs - y_exp) ** 2 + (y_obs_next - y_exp) ** 2) / y_exp
                 degrees_of_freedom += 1
         
         # 3. Shannon Entropy of the LSB plane
@@ -76,10 +95,9 @@ class ImageStegoDetector:
         # Heuristic scoring based on DSP metrics:
         # - LSB correlation: Lower correlation (looks like noise) increases threat score.
         # - LSB entropy: Close to 1.0 increases threat score.
-        # - Chi-Square: Lower Chi-Square statistic indicates flatter PoVs (higher likelihood of LSB steganography).
+        # - Chi-Square: Lower normalized Chi-Square statistic indicates flatter PoVs (higher likelihood of LSB steganography).
         # - LSB ones ratio: Balanced 1s and 0s (approx 0.5) is common for encrypted stego files.
         
-        # Score calculation parameters
         score = 0.0
         
         # Heuristic rules:
@@ -89,19 +107,20 @@ class ImageStegoDetector:
         elif lsb_correlation > 0.48:
             score -= 10
             
-        # 2. LSB Entropy check (Stego typically has LSB entropy > 0.999)
+        # 2. LSB Entropy check (Stego typically has LSB entropy > 0.995)
         if lsb_entropy > 0.995:
             score += 30 * (lsb_entropy - 0.995) / 0.005
             
-        # 3. Chi-Square Statistic check (If extremely low under stego hypothesis, high probability)
-        # Lower chi_square_stat means the distribution fits the stego POV hypothesis perfectly
-        if chi_square_stat < 100.0:
-            score += 25 * (100.0 - chi_square_stat) / 100.0
-        elif chi_square_stat > 1000.0:
+        # 3. Scale-invariant Chi-Square Statistic check (Normalized per pixel)
+        # Lower norm_chi_square indicates flattened PoVs (higher likelihood of LSB steganography)
+        norm_chi_square = float(chi_square_stat / total_pixels) if total_pixels > 0 else 0.0
+        if norm_chi_square < 0.0008:
+            score += 35 * (0.0008 - norm_chi_square) / 0.0008
+        elif norm_chi_square > 0.003:
             score -= 15
             
-        # Normalize score
-        risk_score = max(0, min(100, int(score + 15))) # base score adjustment
+        # Normalize score (0 to 100)
+        risk_score = max(0, min(100, int(score)))
         
         # Risk level classification
         if risk_score <= 30:

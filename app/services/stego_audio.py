@@ -57,7 +57,8 @@ class AudioStegoDetector:
 
         # 2. Raw LSB Heuristic (Hidden Signal Detection)
         # Convert float samples back to quantized 16-bit integers to inspect the exact LSB plane
-        y_int = np.int16(y * 32767)
+        # Properly clip and scale to Int16 range [-32768, 32767]
+        y_int = np.int16(np.clip(y * 32767.5, -32768, 32767))
         lsb_bits = y_int & 1
         
         # Calculate LSB bits ratio of 1s
@@ -102,8 +103,8 @@ class AudioStegoDetector:
         elif mfcc_ratio < 0.8:
             score -= 10
 
-        # Normalize score
-        risk_score = max(0, min(100, int(score + 10)))
+        # Normalize score (0 to 100)
+        risk_score = max(0, min(100, int(score)))
 
         if risk_score <= 30:
             risk_level = "SAFE"

@@ -198,6 +198,33 @@ try:
         try:
             test = supabase.table("users").select("id").limit(1).execute()
             print(f"[INFO] Supabase connected successfully. Users table accessible. Rows returned: {len(test.data)}\n")
+            
+            # Ensure default admin account exists in Supabase
+            try:
+                admin_check = supabase.table("users").select("id").eq("email", "admin@stego.ai").execute()
+                if not admin_check.data:
+                    from app.core.security import get_password_hash
+                    admin_id = "admin-uuid-1234"
+                    admin_hash = get_password_hash("admin123")
+                    supabase.table("users").insert({
+                        "id": admin_id,
+                        "name": "Lead Cyber Operator",
+                        "email": "admin@stego.ai",
+                        "password_hash": admin_hash,
+                        "role": "admin",
+                        "is_permanent": True
+                    }).execute()
+                    supabase.table("settings").insert({
+                        "user_id": admin_id,
+                        "notifications_enabled": True,
+                        "alert_sound_enabled": True,
+                        "background_scan_enabled": True,
+                        "auto_scan_enabled": True,
+                        "dark_mode": True
+                    }).execute()
+                    print("[INFO] Default admin user (admin@stego.ai) seeded into Supabase users table.")
+            except Exception as seed_err:
+                print(f"[WARNING] Failed to auto-seed default admin into Supabase: {seed_err}")
         except Exception as test_err:
             print(f"[WARNING] Supabase connected but table query failed: {test_err}")
             print("[WARNING] This is likely a Row Level Security (RLS) issue.")
