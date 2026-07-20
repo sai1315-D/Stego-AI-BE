@@ -6,8 +6,9 @@ import shutil
 
 def download_and_setup():
     url = "https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/exiftool-13.59_64.zip"
-    dest_zip = "exiftool.zip"
-    backend_dir = r"d:\project\stego AI\backend"
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    dest_zip = os.path.join(backend_dir, "exiftool.zip")
+    temp_dir = os.path.join(backend_dir, "exiftool_temp")
     
     print(f"Downloading ExifTool from {url}...")
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
@@ -18,12 +19,12 @@ def download_and_setup():
     
     print("Extracting archive...")
     with zipfile.ZipFile(dest_zip, 'r') as zip_ref:
-        zip_ref.extractall("exiftool_temp")
+        zip_ref.extractall(temp_dir)
     
     print("Moving files to backend directory...")
     # Find exiftool(-k).exe
     exe_name = "exiftool(-k).exe"
-    temp_exe_path = os.path.join("exiftool_temp", exe_name)
+    temp_exe_path = os.path.join(temp_dir, exe_name)
     target_exe_path = os.path.join(backend_dir, "exiftool.exe")
     
     if os.path.exists(temp_exe_path):
@@ -31,14 +32,14 @@ def download_and_setup():
         print(f"Copied and renamed executable to {target_exe_path}")
     else:
         # Check if there is another .exe
-        for f in os.listdir("exiftool_temp"):
+        for f in os.listdir(temp_dir):
             if f.endswith(".exe"):
-                shutil.copy(os.path.join("exiftool_temp", f), target_exe_path)
+                shutil.copy(os.path.join(temp_dir, f), target_exe_path)
                 print(f"Copied {f} to {target_exe_path}")
                 break
                 
     # Check for exiftool_files directory
-    temp_files_dir = os.path.join("exiftool_temp", "exiftool_files")
+    temp_files_dir = os.path.join(temp_dir, "exiftool_files")
     target_files_dir = os.path.join(backend_dir, "exiftool_files")
     if os.path.exists(temp_files_dir):
         if os.path.exists(target_files_dir):
@@ -47,8 +48,10 @@ def download_and_setup():
         print(f"Copied exiftool_files to {target_files_dir}")
         
     # Cleanup
-    os.remove(dest_zip)
-    shutil.rmtree("exiftool_temp")
+    if os.path.exists(dest_zip):
+        os.remove(dest_zip)
+    if os.path.exists(temp_dir):
+        shutil.rmtree(temp_dir)
     print("Setup completed successfully.")
 
 if __name__ == "__main__":
